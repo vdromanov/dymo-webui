@@ -24,63 +24,10 @@ body
 	width:650px;
 }
 
-#footer
-{
-	width:640px;
-	clear:both;
-	color:#999999;
-	text-align:center;
-	width:640px;
-	padding-bottom: 15px;
-	font-size: 85%;
-}
-
-#footer a{
-	color:#999999;
-	text-decoration: none;
-	border-bottom: 1px dotted #999999;
-}
-
-#bottom
-{
-	display:block;
-	height:10px;
-	margin:0 auto;
-	width:650px;
-}
-
 form.appnitro
 {
 	margin:20px 20px 0;
 	padding:0 0 20px;
-}
-
-/**** Logo Section  *****/
-h1
-{
-	background-color:#dedede;
-	margin:0;
-	min-height:0;
-	padding:0;
-	text-decoration:none;
-	text-indent:-8000px;
-	
-}
-
-h1 a
-{
-	
-	display:block;
-	height:100%;
-	min-height:40px;
-	overflow:hidden;
-}
-
-
-img
-{
-	behavior:url(css/iepngfix.htc);
-	border:none;
 }
 
 
@@ -236,14 +183,6 @@ input.text
 	border-left:1px solid #c3c3c3;
 	border-right:1px solid #c3c3c3;
 	border-top:1px solid #7c7c7c;
-	color:#333;
-	font-size:100%;
-	margin:0;
-	padding:2px 0;
-}
-
-input.file
-{
 	color:#333;
 	font-size:100%;
 	margin:0;

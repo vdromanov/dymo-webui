@@ -1,33 +1,39 @@
 package main
 
+//go-generate:go-bindata -fs -prefix "static/" static/
+
 import (
 	"flag"
 	"fmt"
 	"net/http"
 )
 
-func runPrinting(w http.ResponseWriter, r *http.Request) {
+var (
+	ScriptLocation string
+	CmdArgs        []string
+	ExecFname      string
+)
+
+func fillRunningCmd(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	out, err := PrintLabel(r.FormValue("barcodeAlign"), r.FormValue("captionContents"), r.FormValue("barcodeContents"))
-	if err != nil {
-		http.Error(w, out, http.StatusInternalServerError)
-	} else {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-	}
+	CmdArgs = []string{ScriptLocation, "-target", RawifyString(r.FormValue("barcodeAlign")), "-barcode", RawifyString(r.FormValue("barcodeContents")), "-caption", RawifyString(r.FormValue("captionContents")), "-subcaption", "''"}
+	http.Redirect(w, r, "/log.html", http.StatusSeeOther)
+	fmt.Println(CmdArgs)
 }
 
 func main() {
 	var port int
 
-	flag.StringVar(&ScriptLocation, "exec", "labels.py", "Specify printing python script")
+	flag.StringVar(&ScriptLocation, "script", "", "Specify printing python script, if any")
 	flag.IntVar(&port, "port", 4080, "Port, to run on")
 	flag.Parse()
-
+	ExecFname = "/usr/bin/python"
 	server := http.Server{
 		Addr: fmt.Sprintf(":%d", port),
 	}
 
 	http.Handle("/", http.FileServer(AssetFile()))
-	http.HandleFunc("/print", runPrinting)
+	http.HandleFunc("/print", fillRunningCmd)
+	http.HandleFunc("/ws", ServeWs)
 	server.ListenAndServe()
 }
